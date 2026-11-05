@@ -16,9 +16,16 @@ img,.ph{width:56px;height:56px;border-radius:10px;object-fit:cover;flex:none;dis
 </style></head><body>
 <header><h1>HugShop Thailand — พิกัดสินค้า</h1><p>ดูเบอร์จากคลิป แล้วกดสินค้าเบอร์นั้นได้เลย</p><input id="q" type="search" inputmode="numeric" placeholder="พิมพ์เบอร์ เช่น 12 หรือชื่อสินค้า"></header>
 <main id="list">
-<p>ยังไม่มีสินค้า</p>
+<a class="it" href="https://s.shopee.co.th/30pINoqVCf" target="_blank" rel="noopener" data-q="1 ชุดถังปั่นไม้ม็อบ">
+  <span class="no">1</span><span class="ph">🛒</span>
+  <span class="nm">ชุดถังปั่นไม้ม็อบ</span><span class="go">ซื้อ ›</span></a>
 </main>
 <script>
 const q=document.getElementById('q'),its=[...document.querySelectorAll('.it')];
 q.oninput=()=>{const v=q.value.trim().toLowerCase();its.forEach(a=>{const no=a.querySelector('.no').textContent;a.hidden=!!v&&!(/^\d+$/.test(v)?no===v:a.dataset.q.includes(v));});};
+// พิมพ์เบอร์แล้วกด Enter/ไป = เปิดสินค้าเบอร์นั้นเลย
+q.onkeydown=(e)=>{if(e.key==='Enter'){const a=its.find(x=>!x.hidden);if(a)location.href=a.href;}};
+// ลิงก์ตรงไปสินค้า: …/hugshop-links/?n=12 หรือ …/#12 → เด้งไปหน้าสินค้าเบอร์ 12 ทันที
+const want=(new URLSearchParams(location.search).get('n')||location.hash.replace('#','')).trim();
+if(/^\d+$/.test(want)){const a=its.find(x=>x.querySelector('.no').textContent===want);if(a){location.replace(a.href);}else{q.value=want;q.oninput();}}
 </script></body></html>
